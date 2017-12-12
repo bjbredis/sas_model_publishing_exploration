@@ -5,7 +5,7 @@ Using the Python for API for SAS Viya Data Mining and Machine Learning:
 2. Move the model's astore to another SAS Viya envionment and expose the model description, inputs, and outputs via REST API to allow for fast single record scoring against the saved model.
 
 Roughly as in the following:
-!(./cf_mbo.jpg)
+![cf_mbo1.jpg](./cf_mbo1.jpg)
 
 Requirements:
 * SAS Viya Data Mining and Machine Learning
