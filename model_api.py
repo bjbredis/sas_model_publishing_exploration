@@ -1,4 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+import json
 import pandas as pd
 import os
 import swat
@@ -53,7 +54,33 @@ def score_root():
 ##
 @app.route('/score', methods=['POST'])
 def score_record():
-    return 'POST on "/score".' + str(os.getenv("CF_INSTANCE_INDEX", 0))
+    try:
+        json_data = request.get_json(force=True)
+        if DEBUG:
+            print(json_data)
+        inputtbl = pd.read_json(json.dumps(json_data), orient='records')
+        scoretbl = cas_session.upload_frame(inputtbl, casout=dict(name="input",replace=True,caslib=cas_library))
+        
+        # score results using astore, not dtreescore
+        results = cas_session.aStore.score(
+            rstore=dict(name=model_name,caslib=cas_library),
+            table=dict(name="input",caslib=cas_library),
+            out=dict(name="output",caslib=cas_library,replace=True)
+        ) 
+        
+        if DEBUG:
+            print(results.Timing.to_json(orient='records'))
+        
+        # get a reference to the output table so we can convert it to json
+        outputtbl = cas_session.CASTable(name="output",caslib=cas_library)
+        
+        if DEBUG:
+            print(outputtbl.to_json(orient='records'))
+        
+        return outputtbl.to_json(orient='records') + '\n', 200
+    except ValueError as e:
+        return 'POST on /score with errors: ' + str(e) + ' ' + str(os.getenv("CF_INSTANCE_INDEX", 0)) + '\n', 400
+    
 
 
 ## 
