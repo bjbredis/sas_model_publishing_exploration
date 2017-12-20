@@ -7,13 +7,13 @@ Using the Python for API for SAS Viya Data Mining and Machine Learning:
 Roughly as in the following (this will be updated to reflect actual):
 ![cf_mbo1.jpg](./cf_mbo1.jpg)
 
-##Usage:
+## Usage:
 1. Run the GradBoost_savestate.ipynb notebook to train a Gradient Boosting machine and "savestate" the model as astore.
 2. Run the model_publish_exploration.ipynb notebook for examples of dealing with the astore action and what the table looks like that it produces.
 3. Run model_api.py to launch the flask app api.
 4. Send single input records as json document to the model api.
 
-##Usage example:
+## Usage example:
 Run the model scoring api:
 ```
 $ python model_api.py
@@ -66,7 +66,7 @@ NOTE: The table INPUT has been created in caslib public from binary data uploade
 127.0.0.1 - - [12/Dec/2017 22:58:23] "POST /score HTTP/1.1" 200 -
 ```
 
-##Requirements:
+## Requirements for use:
 * SAS Viya Data Mining and Machine Learning
 * Python-SWAT package for accessing SAS
 * Python packages: Pandas, numpy, Flask, json
